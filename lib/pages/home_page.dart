@@ -142,7 +142,7 @@ class HomeBody extends StatelessWidget {
                 const SizedBox(height: 16),
                 const Center(
                    child: Text(
-                    'Waktu Pengumpulan\nJumat 20 Februari 23:59 WIB',
+                    'Waktu Pengumpulan\nJumat 31 Desember 2025 23:59 WIB',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
