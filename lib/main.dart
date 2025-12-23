@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'LMS Study',
       theme: AppTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
       home: const LoginPage(),
     );
   }

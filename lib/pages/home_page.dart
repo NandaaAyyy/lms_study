@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
             ),
             const Text(
-              'DANDY CHANDRA PRATAMA', // Mock User
+              'NANDA AYU PRIMADIANI', // Mock User
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ],
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Kursus Saya', // Matching "Course" intent
+            label: 'Kelas Saya', // Matching "Course" intent
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.quiz),
