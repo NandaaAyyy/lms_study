@@ -154,24 +154,26 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 20),
                   
                   // Help Text
-                  Center(
-                    child: TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Bantuan ?',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w500,
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          _showHelpSheet(context);
+                        },
+                        child: const Text(
+                          'Bantuan ?',
+                          style: TextStyle(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            
-            // Spacer to push bottom wave down if screen is tall
-             SizedBox(height: size.height * 0.05),
+              
+              // Spacer to push bottom wave down if screen is tall
+               SizedBox(height: size.height * 0.05),
 
             // Bottom Wave Decoration
             ClipPath(
@@ -185,6 +187,121 @@ class LoginPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showHelpSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Pull Handle
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              
+              // Flags
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildFlagItem('ID', true), // indo currently selected
+                  const SizedBox(width: 20),
+                  _buildFlagItem('EN', false),
+                ],
+              ),
+              const SizedBox(height: 24),
+              
+              // Content Text
+              const Text(
+                'Akses hanya untuk Dosen dan Mahasiswa Universitas Islam Madura.',
+                style: TextStyle(fontSize: 12),
+              ),
+              const SizedBox(height: 12),
+              
+              const Text(
+                'Login menggunakan Akun Microsoft Office 365 dengan mengikuti petunjuk berikut :',
+                style: TextStyle(fontSize: 12),
+              ),
+              const SizedBox(height: 12),
+              
+              const Text(
+                'Username (Akun iGracias) ditambahkan "@365.uimadura.ac.id"\nPassword (Akun iGracias) pada kolom Password.',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              
+              const Text(
+                'Kegagalan yang terjadi pada Autentikasi disebabkan oleh Anda belum mengubah Password Anda menjadi "Strong Password". Pastikan Anda telah melakukan perubahan Password di iGracias.',
+                style: TextStyle(fontSize: 12),
+              ),
+              const SizedBox(height: 12),
+              
+              const Text(
+                'Informasi lebih lanjut dapat menghubungi Layanan CeLOE Helpdesk di :',
+                style: TextStyle(fontSize: 12),
+              ),
+              const SizedBox(height: 8),
+              
+              const Text(
+                'Mail : nandaayuprimad@uimadura.ac.id\nwhatsapp : +62 821-1666-3563',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              
+              const SizedBox(height: 24),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildFlagItem(String code, bool isSelected) {
+    return Column(
+      children: [
+        // Simple flag representation via text/emoji or icon if asset not available
+        // Using emoji for simplicity as per requirements "Rich Aesthetics" usually requires assets but emojis are reliable without assets.
+        Text(
+          code == 'ID' ? '🇮🇩' : '🇬🇧', 
+          style: const TextStyle(fontSize: 24),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          code,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: isSelected ? Colors.black : Colors.grey,
+          ),
+        ),
+        if (isSelected)
+          Container(
+            margin: const EdgeInsets.only(top: 4),
+            height: 2,
+            width: 20,
+            color: Colors.black,
+          )
+      ],
     );
   }
 }
