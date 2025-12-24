@@ -32,36 +32,39 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Halo,',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+      appBar: _selectedIndex == 3
+          ? null
+          : AppBar(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Halo,',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  ),
+                  const Text(
+                    'NANDA AYU PRIMADIANI', // Mock User
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: Chip(
+                    avatar: const Icon(Icons.person,
+                        size: 16, color: AppColors.primary),
+                    label: const Text('Mahasiswa', style: TextStyle(fontSize: 12)),
+                    backgroundColor: Colors.white,
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+                  ),
+                )
+              ],
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              elevation: 0,
+              toolbarHeight: 80,
             ),
-            const Text(
-              'NANDA AYU PRIMADIANI', // Mock User
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Chip(
-              avatar: const Icon(Icons.person, size: 16, color: AppColors.primary),
-              label: const Text('Mahasiswa', style: TextStyle(fontSize: 12)),
-              backgroundColor: Colors.white,
-              labelPadding: const EdgeInsets.symmetric(horizontal: 4),
-            ),
-          )
-        ],
-        backgroundColor: AppColors.primary,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        toolbarHeight: 80,
-      ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
