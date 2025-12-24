@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'quiz_start_page.dart';
+import 'konsep_uid_page.dart';
+import 'pengantar_uid_page.dart';
 
 class CourseDetailPage extends StatefulWidget {
   final String courseTitle;
@@ -88,55 +90,106 @@ class _CourseDetailPageState extends State<CourseDetailPage> with SingleTickerPr
   }
 
   Widget _buildMateriTab() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Center(
-            child: Text(
-              'Pengantar User Interface Design',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        _buildModuleItem(
+          title: '01 - Pengantar User Interface Design',
+          meeting: 'Pertemuan 1',
+          subtitle: '3 URLs, 2 Files, 2 Interactive Content',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PengantarUIDPage()),
+            );
+          },
+        ),
+        _buildModuleItem(
+          title: '02 - Konsep User Interface Design',
+          meeting: 'Pertemuan 2',
+          subtitle: '2 URLs, 1 Kuis, 3 Files, 1 Tugas',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const KonsepUIDPage()),
+            );
+          },
+        ),
+        _buildModuleItem(
+          title: '03 - Interaksi pada User Interface Design',
+          meeting: 'Pertemuan 3',
+          subtitle: '3 URLs, 2 Files, 1 Interactive Content',
+        ),
+        _buildModuleItem(
+          title: '04 - Ethnographic Observation',
+          meeting: 'Pertemuan 4',
+          subtitle: '3 URLs, 2 Files, 1 Interactive Content',
+        ),
+        _buildModuleItem(
+          title: '05 - UID Testing',
+          meeting: 'Pertemuan 5',
+          subtitle: '3 URLs, 2 Files, 1 Interactive Content',
+        ),
+        _buildModuleItem(
+          title: '06 - Assessment 1',
+          meeting: 'Pertemuan 6',
+          subtitle: '1 URLs, 2 Files, 1 Interactive Content',
+        ),
+      ],
+    );
+  }
+
+  Widget _buildModuleItem({
+    required String title, 
+    required String meeting, 
+    required String subtitle,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [
+             BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4, offset: const Offset(0,2))
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.blue.shade400,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    meeting,
+                    style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const Icon(Icons.check_circle, color: Colors.green, size: 20),
+              ],
             ),
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            'Deskripsi',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Antarmuka yang dibangun harus memperhatikan prinsip-prinsip desain yang ada. Hal ini diharapkan agar antarmuka yang dibangun bukan hanya menarik secara visual tetapi dengan memperhatikan kaidah-kaidah prinsip desain diharapkan akan mendukung pengguna dalam menggunakan produk secara baik. Pelajaran mengenai prinsip UID ini sudah pernah diajarkan dalam mata kuliah Implementasi Desain Antarmuka Pengguna tetapi pada matakuliah ini akan direview kembali sehingga dapat menjadi bekal saat memasukki materi mengenai User Experience',
-            style: TextStyle(fontSize: 12, height: 1.5, color: Colors.black87),
-            textAlign: TextAlign.justify,
-          ),
-          const SizedBox(height: 24),
-          
-          _buildMaterialItem(
-            'Sistem Informasi Mahasiswa Akademik',
-            Icons.link,
-            onTap: () async {
-              const url = 'https://simat.uim.ac.id/';
-              final uri = Uri.parse(url);
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri, mode: LaunchMode.externalApplication);
-              } else {
-                // Handling error or just ignored for now as per simple req
-                debugPrint('Could not launch $url');
-              }
-            },
-          ),
-          _buildMaterialItem('Pengantar User Interface Design', Icons.description_outlined),
-          _buildMaterialItem('Empat Teori Dasar Antarmuka Pengguna', Icons.description_outlined),
-          _buildMaterialItem('Empat Teori Dasar Antarmuka Pengguna', Icons.description_outlined),
-          _buildMaterialItem('User Interface Design for Beginner', Icons.picture_as_pdf_outlined),
-          _buildMaterialItem('20 Prinsip Desain', Icons.link),
-          _buildMaterialItem('Best Practice UI Design', Icons.link),
-        ],
+            const SizedBox(height: 12),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            ),
+             const SizedBox(height: 8),
+            Text(
+              subtitle,
+              style: TextStyle(color: Colors.grey.shade400, fontSize: 11),
+            ),
+          ],
+        ),
       ),
     );
   }
