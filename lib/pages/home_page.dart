@@ -3,6 +3,7 @@ import '../core/theme/app_colors.dart';
 import 'course_list_page.dart';
 import 'quiz_page.dart';
 import 'profile_page.dart';
+import 'announcement_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -170,51 +171,62 @@ class HomeBody extends StatelessWidget {
               ),
             ],
           ),
-          Container(
-            height: 140,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade200),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ClipRRect(
-               borderRadius: BorderRadius.circular(12),
-               child: Stack(
-                 children: [
-                   // Placeholder for Announcement Image
-                   Container(
-                     color: Colors.blue.shade50,
-                     child: const Center(
-                       child: Icon(Icons.campaign, size: 50, color: Colors.blue),
-                     ),
-                   ),
-                   Positioned(
-                     bottom: 0,
-                     left: 0,
-                     right: 0,
-                     child: Container(
-                       padding: const EdgeInsets.all(8),
-                       color: Colors.white,
-                       child: const Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         mainAxisSize: MainAxisSize.min,
-                         children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AnnouncementPage()),
+              );
+            },
+            child: Container(
+              height: 140,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade200),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Stack(
+                  children: [
+                    // Placeholder for Announcement Image
+                    Container(
+                      color: Colors.blue.shade50,
+                      child: const Center(
+                        child:
+                            Icon(Icons.campaign, size: 50, color: Colors.blue),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        color: Colors.white,
+                        child: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
                             Text(
-                             "Maintenance Pro LMS Semester Genap 2024/2025",
-                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-                             maxLines: 1,
-                             overflow: TextOverflow.ellipsis,
-                           ),
-                           Text(
-                             "Diumumkan oleh Admin",
-                             style: TextStyle(color: Colors.grey, fontSize: 11),
-                           )
-                         ],
-                       ),
-                     ),
-                   )
-                 ],
-               ),
+                              "Maintenance Pro LMS Semester Genap 2024/2025",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 13),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              "Diumumkan oleh Admin",
+                              style: TextStyle(color: Colors.grey, fontSize: 11),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
 
