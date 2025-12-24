@@ -129,7 +129,7 @@ class TaskDetailPage extends StatelessWidget {
                    Padding(
                      padding: const EdgeInsets.only(bottom: 24.0),
                      child: ElevatedButton(
-                       onPressed: () {},
+                       onPressed: () => _showUploadSheet(context),
                        style: ElevatedButton.styleFrom(
                          backgroundColor: Colors.grey.shade200,
                          foregroundColor: Colors.black,
@@ -153,7 +153,7 @@ class TaskDetailPage extends StatelessWidget {
     return Container(
        padding: const EdgeInsets.all(16),
        decoration: BoxDecoration(
-          color: label == 'Status' || label == 'Status tanggal' ? Colors.grey.shade50 : Colors.white, // Alternating colors slightly
+          color: label == 'Status' || label == 'Status tanggal' ? Colors.grey.shade50 : Colors.white,
           border: const Border(bottom: BorderSide(color: Colors.grey, width: 0.2))
        ),
        child: Row(
@@ -170,4 +170,175 @@ class TaskDetailPage extends StatelessWidget {
        ),
     );
   }
+
+  void _showUploadSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    const Text(
+                      'Upload File',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Content
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Maksimum File 5MB, Maksimum Jumlah File 20',
+                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    // Upload Area (Dotted Border Simulation)
+                    CustomPaint(
+                      painter: DottedBorderPainter(),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        child: Column(
+                          children: [
+                            Icon(Icons.cloud_upload_outlined, size: 80, color: Colors.blue.shade400),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'File yang akan di upload akan tampil di sini',
+                              style: TextStyle(color: Colors.grey, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 30),
+                    
+                    // Buttons
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey.shade100,
+                              foregroundColor: Colors.black87,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            ),
+                            child: const Text('Pilih File'),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                         SizedBox(
+                          width: 200,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                             style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey.shade100,
+                              foregroundColor: Colors.black87,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            ),
+                            child: const Text('Simpan'),
+                          ),
+                        ),
+                      ],
+                    ),
+                     const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DottedBorderPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey
+      ..strokeWidth = 1
+      ..style = PaintingStyle.stroke;
+
+    const dashWidth = 5.0;
+    const dashSpace = 3.0;
+    
+    // Function to draw dashed line
+    void drawDashedLine(Offset start, Offset end) {
+      double distance = (end - start).distance;
+      double currentDistance = 0.0;
+      while (currentDistance < distance) {
+        double len = dashWidth;
+        if (currentDistance + dashWidth > distance) {
+          len = distance - currentDistance;
+        }
+        canvas.drawLine(
+          start + (end - start) * (currentDistance / distance),
+          start + (end - start) * ((currentDistance + len) / distance),
+          paint,
+        );
+        currentDistance += dashWidth + dashSpace;
+      }
+    }
+
+    // Top
+    drawDashedLine(const Offset(0, 0), Offset(size.width, 0));
+    // Right
+    drawDashedLine(Offset(size.width, 0), Offset(size.width, size.height));
+    // Bottom
+    drawDashedLine(Offset(size.width, size.height), Offset(0, size.height));
+    // Left
+    drawDashedLine(Offset(0, size.height), const Offset(0, 0));
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
