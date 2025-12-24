@@ -1,82 +1,92 @@
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import 'auth/login_page.dart';
+import 'course_detail_page.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 1); // "Kelas" is middle tab (index 1)
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
+      body: Column(
         children: [
-          // Background Header
-          Container(
-            height: 200,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(40),
-                bottomRight: Radius.circular(40),
-              ),
-            ),
-          ),
-
-          SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-
-                // Profile Image & Name
-                Center(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 3),
-                          color: Colors.grey.shade300,
-                        ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/yoona.jpg',
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(
-                                Icons.person,
-                                size: 50,
-                                color: Colors.grey,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'NANDA AYU PRIMADIANI',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+          // Header Section
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              // Red Background
+              Container(
+                height: 320, // Adjust height to fit everything
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
                   ),
                 ),
+              ),
+              
+              // Profile Info
+              Positioned(
+                top: 60,
+                child: Column(
+                  children: [
+                    Container(
+                      width: 90,
+                      height: 90,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                        image: const DecorationImage(
+                          image: AssetImage('assets/images/yoona.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'NANDA AYU PRIMADIANI',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-                const SizedBox(height: 24),
-
-                // Floating Tabs Card
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 24),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+              // Floating TabBar
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 48, // Margin 24 each side
+                  height: 60,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
@@ -85,120 +95,35 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          const Text(
-                            'About Me',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Container(height: 2, width: 40, color: Colors.black),
-                        ],
-                      ),
-                      const Text('Kelas', style: TextStyle(color: Colors.grey)),
-                      const Text('Edit Profile',
-                          style: TextStyle(color: Colors.grey)),
+                  child: TabBar(
+                    controller: _tabController,
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.grey,
+                    indicatorColor: Colors.black,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorWeight: 3,
+                    labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    tabs: const [
+                       Tab(text: 'About Me'),
+                       Tab(text: 'Kelas'),
+                       Tab(text: 'Edit Profile'),
                     ],
                   ),
                 ),
+              ),
+            ],
+          ),
 
-                const SizedBox(height: 24),
+          const SizedBox(height: 20),
 
-                // Content
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Informasi User',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        _buildInfoItem(
-                          'Email address',
-                          'nandaayuprimad@365.uimadura.ac.id',
-                        ),
-                        _buildInfoItem(
-                          'Program Studi',
-                          'S1 Teknik Informatika',
-                        ),
-                        _buildInfoItem(
-                          'Fakultas',
-                          'Fakultas Teknik',
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        const Text(
-                          'Aktivitas Login',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        _buildInfoItem(
-                          'Pertama kali login',
-                          'Senin, 20 Desember 2025, 9:27 AM',
-                        ),
-
-                        // ✅ REAL TIME
-                        _buildInfoItem(
-                          'Last access to site',
-                          formatDateTime(DateTime.now()),
-                        ),
-
-                        const SizedBox(height: 40),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // Logout Button
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(right: 24.0, bottom: 24.0),
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.logout, size: 16),
-                      label: const Text('Log Out'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffB71C1C),
-                        foregroundColor: Colors.white,
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+          // Tab Content
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildAboutMeTab(), // Placeholder
+                _buildKelasTab(),   // The requested implementation
+                _buildEditProfileTab(), // Placeholder
               ],
             ),
           ),
@@ -207,53 +132,187 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoItem(String label, String value) {
+  Widget _buildAboutMeTab() {
+    return const Center(child: Text('About Me Content'));
+  }
+
+  Widget _buildEditProfileTab() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+      children: [
+        _buildTextField(label: 'Nama Pertama'),
+        _buildTextField(label: 'Nama Terakhir'),
+        _buildTextField(label: 'E-mail Address'),
+        _buildTextField(label: 'Negara'),
+        _buildTextField(label: 'Deskripsi', maxLines: 5),
+        const SizedBox(height: 20),
+        Align(
+          alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            onPressed: () {
+              // Save logic
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey.shade200, // Light grey background like in image
+              foregroundColor: Colors.black,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+            ),
+            child: const Text('Simpan'),
+          ),
+        ),
+         const SizedBox(height: 40), // Bottom padding
+      ],
+    );
+  }
+
+  Widget _buildTextField({required String label, int maxLines = 1}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: const TextStyle(fontSize: 12, color: Colors.grey),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
             style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.textPrimary,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            maxLines: maxLines,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade400),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.shade400),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(color: AppColors.primary),
+              ),
             ),
           ),
         ],
       ),
     );
   }
-}
 
-/// ===== Helper Format Waktu (REAL TIME) =====
-String formatDateTime(DateTime dateTime) {
-  return "${dateTime.day.toString().padLeft(2, '0')} "
-      "${_monthName(dateTime.month)} "
-      "${dateTime.year}, "
-      "${dateTime.hour.toString().padLeft(2, '0')}:"
-      "${dateTime.minute.toString().padLeft(2, '0')}";
-}
+  Widget _buildKelasTab() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+      children: [
+        _buildClassItem(
+          title: 'BAHASA INGGRIS: BUSINESS AND SCIENTIFIC',
+          code: 'D4SM-41-GAB1 [ARS]',
+          date: 'Monday, 8 February 2025',
+        ),
+        _buildClassItem(
+          title: 'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
+          code: 'D4SM-42-03 [ADY]',
+          date: 'Monday, 8 February 2025',
+          onTap: () {
+            // Link to relevant page if needed, e.g. CourseDetailPage
+             Navigator.push(
+               context,
+               MaterialPageRoute(
+                 builder: (context) => const CourseDetailPage(
+                   courseTitle: 'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
+                   courseCode: 'D4SM-42-03 [ADY]',
+                 ),
+               ),
+             );
+          }
+        ),
+        _buildClassItem(
+          title: 'KEWARGANEGARAAN',
+          code: 'D4SM-41-GAB1 [BBO], Jumat 2',
+          date: 'Friday, 8 February 2025',
+        ),
+        _buildClassItem(
+           title: 'OLAH RAGA D3TT-44-02 [EYR]',
+           code: 'Tanggal Mulai Monday, 8 February 2025'
+        ),
+         _buildClassItem(
+           title: 'PEMROGRAMAN MULTIMEDIA INTERAKTIF',
+           code: 'D4SM-43-04 [TPR]',
+           date: 'Monday, 8 February 2025',
+        ),
+         _buildClassItem(
+           title: 'PEMROGRAMAN PERANGKAT BERGERAK MULTIMEDIA',
+           code: 'D4SM-41-GAB1 [APJ]',
+           date: 'Monday, 8 February 2025',
+        ),
+         _buildClassItem(
+           title: 'SISTEM OPERASI D4SM-44-02 [DDS]',
+           code: 'Monday, 8 February 2025',
+        ),
+      ],
+    );
+  }
 
-String _monthName(int month) {
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  return months[month - 1];
+  Widget _buildClassItem({
+    required String title,
+    required String code,
+    String? date,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 24),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Blue Icon/Shape
+            Container(
+              width: 50,
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.blue.shade300,
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    code,
+                    style: const TextStyle(fontSize: 11, color: Colors.black54),
+                  ),
+                   if (date != null) ...[
+                     const SizedBox(height: 4),
+                      Text(
+                        'Tanggal Mulai $date',
+                        style: const TextStyle(fontSize: 11, color: Colors.grey),
+                      ),
+                   ]
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
