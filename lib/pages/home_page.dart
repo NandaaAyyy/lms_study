@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import 'course_list_page.dart';
+import 'notification_page.dart';
 import 'quiz_page.dart';
 import 'profile_page.dart';
 import 'announcement_page.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const HomeBody(),     // Defined below
     const CourseListPage(),
-    const QuizPage(),
+    const NotificationPage(),
     const ProfilePage(),
   ];
 
@@ -80,8 +81,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Kelas Saya', // Matching "Course" intent
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.quiz),
-            label: 'Notifikasi', // Using Quiz icon but typically Notifications or Task
+            icon: Icon(Icons.notifications),
+            label: 'Notifikasi',
           ),
            BottomNavigationBarItem(
             icon: Icon(Icons.person),
