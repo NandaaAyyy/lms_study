@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'quiz_start_page.dart';
 
 class CourseDetailPage extends StatefulWidget {
@@ -39,129 +40,132 @@ class _CourseDetailPageState extends State<CourseDetailPage> with SingleTickerPr
       appBar: AppBar(
         title: Text(
           widget.courseTitle,
-           style: const TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 14),
         ),
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.primary, // Red background
         foregroundColor: Colors.white,
+        elevation: 0,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60), // Space for custom container
+          preferredSize: const Size.fromHeight(80),
           child: Container(
-            color: Colors.white,
+            color: AppColors.primary, // Keep red background behind container
+            padding: const EdgeInsets.only(bottom: 20, left: 24, right: 24),
             child: Container(
-               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-               decoration: BoxDecoration(
-                 color: Colors.white,
-                 borderRadius: BorderRadius.circular(25),
-                 boxShadow: [
-                   BoxShadow(
-                     color: Colors.black.withOpacity(0.1),
-                     blurRadius: 4,
-                     offset: const Offset(0, 2),
-                   )
-                 ]
-               ),
-               child: TabBar(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: TabBar(
                 controller: _tabController,
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Colors.white, // Inverted logic: selected usually has color? 
-                  // UX Image shows: "indicator" is likely an underline OR the whole pill is selected.
-                  // Let's look at the image: It has a WHITE background for the tab bar, and a thick black underline for selected?
-                  // Or maybe it's a pill tab. 
-                  // "Materi" vs "Tugas Dan Kuis" (Underlined in image)
-                  border: const Border(bottom: BorderSide(color: Colors.black, width: 3))
+                indicator: const UnderlineTabIndicator(
+                  borderSide: BorderSide(width: 3.0, color: Colors.black),
+                  insets: EdgeInsets.symmetric(horizontal: 30.0),
                 ),
-                indicatorColor: Colors.black,
-                indicatorWeight: 3,
-                indicatorSize: TabBarIndicatorSize.label,
                 labelColor: Colors.black,
                 unselectedLabelColor: Colors.grey,
-                labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                 tabs: const [
-                  Tab(text: 'Materi'),
-                  Tab(text: 'Tugas Dan Kuis'),
+                  Tab(text: 'Lampiran Materi'),
+                  Tab(text: 'Tugas dan Kuis'),
                 ],
               ),
             ),
           ),
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          _buildMateriTab(),
-          _buildTugasDanKuisTab(context),
-        ],
+      body: Container(
+        color: Colors.white,
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            _buildMateriTab(),
+            _buildTugasDanKuisTab(context),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildMateriTab() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           // Course Info
-           Container(
-             padding: const EdgeInsets.all(16),
-             decoration: BoxDecoration(
-               color: Colors.white,
-               borderRadius: BorderRadius.circular(12),
-               border: Border.all(color: Colors.grey.shade200),
-             ),
-             child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-                 Text(widget.courseCode, style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold)),
-                 const SizedBox(height: 8),
-                 Text('Dosen: Dr. Budi Santoso, M.Kom', style: TextStyle(color: Colors.grey.shade700)),
-               ],
-             )
-           ),
-           const SizedBox(height: 24),
-           
-           const Text(
-              'Deskripsi',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          const Center(
+            child: Text(
+              'Pengantar User Interface Design',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Mata kuliah ini mempelajari prinsip-prinsip desain antarmuka pengguna (UI) dan pengalaman pengguna (UX).',
-              style: TextStyle(color: AppColors.textSecondary, height: 1.5),
-            ),
-            
-            const SizedBox(height: 24),
-            
-            const Text(
-              'Daftar Materi',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  elevation: 0,
-                  color: Colors.grey.shade50,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.grey.shade200),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(Icons.picture_as_pdf, color: Colors.red),
-                    title: Text('Pertemuan ${index + 1}'),
-                    subtitle: const Text('PDF • 2 MB'),
-                    trailing: const Icon(Icons.download),
-                  ),
-                );
-              },
-            )
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'Deskripsi',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Antarmuka yang dibangun harus memperhatikan prinsip-prinsip desain yang ada. Hal ini diharapkan agar antarmuka yang dibangun bukan hanya menarik secara visual tetapi dengan memperhatikan kaidah-kaidah prinsip desain diharapkan akan mendukung pengguna dalam menggunakan produk secara baik. Pelajaran mengenai prinsip UID ini sudah pernah diajarkan dalam mata kuliah Implementasi Desain Antarmuka Pengguna tetapi pada matakuliah ini akan direview kembali sehingga dapat menjadi bekal saat memasukki materi mengenai User Experience',
+            style: TextStyle(fontSize: 12, height: 1.5, color: Colors.black87),
+            textAlign: TextAlign.justify,
+          ),
+          const SizedBox(height: 24),
+          
+          _buildMaterialItem(
+            'Sistem Informasi Mahasiswa Akademik',
+            Icons.link,
+            onTap: () async {
+              const url = 'https://simat.uim.ac.id/';
+              final uri = Uri.parse(url);
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              } else {
+                // Handling error or just ignored for now as per simple req
+                debugPrint('Could not launch $url');
+              }
+            },
+          ),
+          _buildMaterialItem('Pengantar User Interface Design', Icons.description_outlined),
+          _buildMaterialItem('Empat Teori Dasar Antarmuka Pengguna', Icons.description_outlined),
+          _buildMaterialItem('Empat Teori Dasar Antarmuka Pengguna', Icons.description_outlined),
+          _buildMaterialItem('User Interface Design for Beginner', Icons.picture_as_pdf_outlined),
+          _buildMaterialItem('20 Prinsip Desain', Icons.link),
+          _buildMaterialItem('Best Practice UI Design', Icons.link),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMaterialItem(String title, IconData icon, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 20, color: Colors.black87),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(Icons.check_circle, color: Colors.green, size: 20),
+          ],
+        ),
       ),
     );
   }
