@@ -4,6 +4,7 @@ import 'course_list_page.dart';
 import 'quiz_page.dart';
 import 'profile_page.dart';
 import 'announcement_page.dart';
+import 'task_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -113,45 +114,53 @@ class HomeBody extends StatelessWidget {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TaskDetailPage()),
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Tugas 01 - UX Analysis Mobile Game',
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
-                ),
-                const SizedBox(height: 16),
-                const Center(
-                   child: Text(
-                    'Waktu Pengumpulan\nJumat 31 Desember 2025 23:59 WIB',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'DESAIN ANTARMUKA & PENGALAMAN PENGGUNA',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Tugas 01 - UX Analysis Mobile Game',
+                    style: TextStyle(color: Colors.white70, fontSize: 13),
+                  ),
+                  const SizedBox(height: 16),
+                  const Center(
+                    child: Text(
+                      'Waktu Pengumpulan\nJumat 31 Desember 2025 23:59 WIB',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 
