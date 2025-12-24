@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../core/theme/app_colors.dart';
+import 'task_detail_page.dart';
 
 class KonsepUIDPage extends StatefulWidget {
   const KonsepUIDPage({super.key});
@@ -164,6 +165,130 @@ class _KonsepUIDPageState extends State<KonsepUIDPage> with SingleTickerProvider
   }
 
   Widget _buildPlaceholderTab() {
-    return const Center(child: Text("Konten Tugas dan Kuis"));
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildTaskQuizItem(
+            type: 'QUIZ',
+            title: 'Quiz Review 01',
+            date: 'Tanggal Waktu : 26 Februari 2021 23:59 WIB',
+            icon: Icons.quiz_outlined,
+            isCompleted: true,
+            onTap: () {},
+          ),
+          _buildTaskQuizItem(
+            type: 'Tugas',
+            title: 'Tugas 01 - UID Android Mobile Game',
+            date: 'Tanggal Waktu : 26 Februari 2021 23:56 WIB',
+            icon: Icons.assignment_outlined,
+            isCompleted: true, // Assuming consistency
+            onTap: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TaskDetailPage()),
+              );
+            },
+            isGrayCheck: true,
+          ),
+           _buildTaskQuizItem(
+            type: 'QUIZ',
+            title: 'Kuis - Assessment 2',
+            date: 'Tanggal Waktu : 25 Februari 2021 23:55 WIB',
+            icon: Icons.quiz_outlined,
+            isCompleted: true,
+            onTap: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTaskQuizItem({
+    required String type,
+    required String title,
+    required String date,
+    required IconData icon,
+    bool isCompleted = false,
+    bool isGrayCheck = false,
+    VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade100),
+          boxShadow: [
+             BoxShadow(
+              color: Colors.black.withOpacity(0.02),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            )
+          ]
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue.shade400,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    type,
+                    style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Icon(
+                  Icons.check_circle, 
+                  color: isGrayCheck ? Colors.grey.shade300 : Colors.green, 
+                  size: 24
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(icon, size: 28, color: Colors.black87),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        date,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey.shade500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

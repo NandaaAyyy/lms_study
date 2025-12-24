@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'quiz_start_page.dart';
 import 'konsep_uid_page.dart';
 import 'pengantar_uid_page.dart';
+import 'task_detail_page.dart';
 
 class CourseDetailPage extends StatefulWidget {
   final String courseTitle;
@@ -247,7 +248,12 @@ class _CourseDetailPageState extends State<CourseDetailPage> with SingleTickerPr
           title: 'Tugas 01 - UID Android Mobile Game',
           date: '26 Februari 2021 23:56 WIB',
           isDone: false, // Pending icon check default grey
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const TaskDetailPage()),
+            );
+          },
         ),
         _buildTaskCard(
           context,
