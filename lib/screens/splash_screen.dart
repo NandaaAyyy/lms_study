@@ -83,9 +83,9 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
                     ),
                     const SizedBox(height: 24),
                     
-                    // App Name "MyLearning"
+                    // App Name "LMS"
                     const Text(
-                      'MyLearning',
+                      'LMS_STUDY',
                       style: TextStyle(
                         fontFamily: 'Outfit', // Using Outfit or default if not available
                         fontSize: 32,

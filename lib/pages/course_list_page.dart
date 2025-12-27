@@ -7,7 +7,6 @@ class CourseListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mock Data
     final List<Map<String, dynamic>> courses = [
       {
         'title': 'Desain Antarmuka & Pengalaman Pengguna',
@@ -15,7 +14,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.7,
         'color': Colors.orange,
         'icon': 'UI/UX',
-        'imageAsset': 'images/ui.jpg',
+        'image': 'assets/images/ui.jpg',
       },
       {
         'title': 'Pendidikan Kewarganegaraan',
@@ -23,7 +22,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.4,
         'color': Colors.red,
         'icon': 'PKN',
-        'imageAsset': 'images/pkn.jpg',
+        'image': 'assets/images/pkn.jpg',
       },
       {
         'title': 'Sistem Operasi',
@@ -31,7 +30,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.85,
         'color': Colors.blueAccent,
         'icon': 'SO',
-        'imageAsset': 'images/so.jpg',
+        'image': 'assets/images/so.jpg',
       },
       {
         'title': 'Pemrograman Perangkat Bergerak',
@@ -39,7 +38,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.2,
         'color': Colors.purple,
         'icon': 'MOB',
-        'imageAsset': 'images/mobile.jpg',
+        'image': 'assets/images/mobile.jpg',
       },
       {
         'title': 'Basis Data Lanjut',
@@ -47,7 +46,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.5,
         'color': Colors.teal,
         'icon': 'DB',
-        'imageAsset': 'images/so.jpg',
+        'image': 'assets/images/so.jpg',
       },
       {
         'title': 'Kecerdasan Buatan',
@@ -55,7 +54,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.1,
         'color': Colors.indigo,
         'icon': 'AI',
-        'imageAsset': 'images/ui.jpg',
+        'image': 'assets/images/ui.jpg',
       },
     ];
 
@@ -63,42 +62,14 @@ class CourseListPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade50,
       body: Column(
         children: [
-          // Custom Header
-          Container(
-            padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
-            decoration: const BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(24),
-                bottomRight: Radius.circular(24),
-              ),
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.school, color: Colors.white, size: 28),
-                SizedBox(width: 12),
-                Text(
-                  'Kelas Saya',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          
+          _buildHeader(),
           Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: courses.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
-                final course = courses[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: _buildCourseCard(context, course),
-                );
+                return _CourseCard(course: courses[index]);
               },
             ),
           ),
@@ -107,13 +78,48 @@ class CourseListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseCard(BuildContext context, Map<String, dynamic> course) {
-    return GestureDetector(
+  Widget _buildHeader() {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 50, 20, 24),
+      decoration: const BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.school, color: Colors.white, size: 28),
+          SizedBox(width: 12),
+          Text(
+            'Kelas Saya',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// ============================
+/// COURSE CARD WIDGET
+/// ============================
+class _CourseCard extends StatelessWidget {
+  final Map<String, dynamic> course;
+
+  const _CourseCard({required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CourseDetailPage(
+            builder: (_) => CourseDetailPage(
               courseTitle: course['title'],
               courseCode: course['code'],
             ),
@@ -135,81 +141,109 @@ class CourseListPage extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Icon Box
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: course['color'].withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                course['icon'],
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: course['color'],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-              ),
-            ),
+            _CourseImage(course: course),
             const SizedBox(width: 16),
-            
-            // Info
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    course['code'],
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    course['title'],
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  
-                  // Progress
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: LinearProgressIndicator(
-                      value: course['progress'],
-                      minHeight: 6,
-                      backgroundColor: Colors.grey.shade200,
-                      valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${(course['progress'] * 100).toInt()}% Selesai',
-                        style: const TextStyle(fontSize: 10, color: Colors.grey),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            
+            Expanded(child: _CourseInfo(course: course)),
             const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// ============================
+/// IMAGE SECTION
+/// ============================
+class _CourseImage extends StatelessWidget {
+  final Map<String, dynamic> course;
+
+  const _CourseImage({required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Image.asset(
+        course['image'],
+        width: 60,
+        height: 60,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) {
+          return Container(
+            width: 60,
+            height: 60,
+            color: course['color'].withOpacity(0.1),
+            alignment: Alignment.center,
+            child: Text(
+              course['icon'],
+              style: TextStyle(
+                color: course['color'],
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/// ============================
+/// INFO SECTION
+/// ============================
+class _CourseInfo extends StatelessWidget {
+  final Map<String, dynamic> course;
+
+  const _CourseInfo({required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    final progress = course['progress'];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          course['code'],
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          course['title'],
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        const SizedBox(height: 8),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: LinearProgressIndicator(
+            value: progress,
+            minHeight: 6,
+            backgroundColor: Colors.grey.shade200,
+            valueColor:
+                const AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            '${(progress * 100).toInt()}% Selesai',
+            style: const TextStyle(fontSize: 10, color: Colors.grey),
+          ),
+        ),
+      ],
     );
   }
 }

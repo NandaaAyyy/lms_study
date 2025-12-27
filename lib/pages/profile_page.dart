@@ -133,7 +133,99 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
   }
 
   Widget _buildAboutMeTab() {
-    return const Center(child: Text('About Me Content'));
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+      children: [
+        _buildSectionHeader('Informasi User'),
+        const SizedBox(height: 12),
+        _buildInfoItem(
+          label: 'Email address',
+          value: 'nandaayuprimad@365.uimadura.ac.id',
+        ),
+        _buildInfoItem(
+          label: 'Program Studi',
+          value: 'S1 Teknik Informatika',
+        ),
+        _buildInfoItem(
+          label: 'Fakultas',
+          value: 'Fakultas Ilmu Komputer',
+        ),
+        
+        const SizedBox(height: 20),
+        
+        _buildSectionHeader('Aktivitas Login'),
+        const SizedBox(height: 12),
+        _buildInfoItem(
+          label: 'First access to site',
+          value: '2025-12-27 15:43:44',
+        ),
+        _buildInfoItem(
+          label: 'Last access to site',
+          value: '2025-12-27 15:43:44',
+        ),
+
+        const SizedBox(height: 40),
+
+        Row(
+           mainAxisAlignment: MainAxisAlignment.end,
+           children: [
+             ElevatedButton.icon(
+              onPressed: () {
+                // Logout logic
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFA91D34), // Dark red
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              ),
+              icon: const Icon(Icons.logout, size: 20),
+              label: const Text('Log Out'),
+            ),
+           ],
+        ),
+         const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+        color: Colors.black87,
+      ),
+    );
+  }
+
+  Widget _buildInfoItem({required String label, required String value}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.black54,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildEditProfileTab() {
