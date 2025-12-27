@@ -32,7 +32,7 @@ class _QuizPageState extends State<QuizPage> {
   ];
 
   int _currentQuestionIndex = 0;
-  int _score = 0;
+  
   // Store selected answer for each question: null if not answered
   final Map<int, int> _selectedAnswers = {};
 

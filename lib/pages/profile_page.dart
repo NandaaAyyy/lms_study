@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
-import 'auth/login_page.dart';
+// removed unused import: auth/login_page.dart
 import 'course_detail_page.dart';
 
 class ProfilePage extends StatefulWidget {

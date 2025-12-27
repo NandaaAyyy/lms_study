@@ -319,8 +319,6 @@ class HeaderClipper extends CustomClipper<Path> {
     path.quadraticBezierTo(
         firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
 
-    var secondControlPoint = Offset(size.width * 3 / 4, size.height - 60);
-    var secondEndPoint = Offset(size.width, size.height - 40);
     
     // Simple concave/convex curve attempt
     // Let's try a simple arc for now to match the "Concave" look often seen

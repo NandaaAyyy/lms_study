@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
-import 'package:flutter/material.dart';
-import '../core/theme/app_colors.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'quiz_start_page.dart';
 import 'konsep_uid_page.dart';
 import 'pengantar_uid_page.dart';
@@ -195,34 +192,7 @@ class _CourseDetailPageState extends State<CourseDetailPage> with SingleTickerPr
     );
   }
 
-  Widget _buildMaterialItem(String title, IconData icon, {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: Colors.grey.shade300),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 20, color: Colors.black87),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-              ),
-            ),
-            const SizedBox(width: 8),
-            const Icon(Icons.check_circle, color: Colors.green, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildTugasDanKuisTab(BuildContext context) {
     return ListView(
