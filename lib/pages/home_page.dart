@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import 'course_list_page.dart';
 import 'notification_page.dart';
-// removed unused import: quiz_page.dart
+import 'quiz_page.dart';
 import 'profile_page.dart';
 import 'announcement_page.dart';
 import 'task_detail_page.dart';
@@ -261,6 +261,7 @@ class HomeBody extends StatelessWidget {
                 progress: 0.7,
                 color: Colors.orange,
                 iconText: 'UI/UX',
+                imageAsset: 'assets/images/ui.jpg', // Example placeholder, will fall back if not found or handled
               ),
               CourseProgressTile(
                 title: 'PENDIDIKAN KEWARGANEGARAAN',
@@ -268,6 +269,7 @@ class HomeBody extends StatelessWidget {
                 progress: 0.4,
                 color: Colors.red,
                 iconText: 'PKN',
+                imageAsset: 'assets/images/pkn.jpg',
               ),
               CourseProgressTile(
                 title: 'SISTEM OPERASI',
@@ -275,6 +277,7 @@ class HomeBody extends StatelessWidget {
                 progress: 0.85,
                 color: Colors.blueAccent,
                 iconText: 'SO',
+                imageAsset: 'assets/images/so.jpg',
               ),
               CourseProgressTile(
                 title: 'PEMROGRAMAN PERANGKAT BERGERAK',
@@ -282,6 +285,7 @@ class HomeBody extends StatelessWidget {
                 progress: 0.2,
                 color: Colors.purple,
                 iconText: 'MOB',
+                imageAsset: 'assets/images/mobile.jpg',
               ),
             ],
           ),
@@ -297,6 +301,7 @@ class CourseProgressTile extends StatelessWidget {
   final double progress;
   final Color color;
   final String iconText;
+  final String? imageAsset; // Added optional image asset
 
   const CourseProgressTile({
     super.key,
@@ -305,6 +310,7 @@ class CourseProgressTile extends StatelessWidget {
     required this.progress,
     required this.color,
     required this.iconText,
+    this.imageAsset, // Initialize
   });
 
   @override
@@ -333,17 +339,55 @@ class CourseProgressTile extends StatelessWidget {
               decoration: BoxDecoration(
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
+                image: imageAsset != null
+                    ? DecorationImage(
+                        image: AssetImage(imageAsset!),
+                        fit: BoxFit.cover,
+                        onError: (exception, stackTrace) {
+                           // Fallback is handled by the child container if image fails loading? 
+                           // Actually DecorationImage doesn't easily support fallback content if the image itself is missing in assets.
+                           // Better to check if we can load it or just rely on the user providing correct paths.
+                           // For now, if the asset path is invalid, it might throw or show nothing.
+                           // A safer way is to use a child Image.asset with errorBuilder, but we want it as decoration or clipped.
+                        },
+                      )
+                    : null,
               ),
               alignment: Alignment.center,
-              child: Text(
-                iconText,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: color,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-              ),
+              // If imageAsset is provided and valid, this child text might be covered or obscure. 
+              // But if we want a fallback if the asset is missing, we need Image.asset with errorBuilder.
+              child: imageAsset != null 
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        imageAsset!,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Text(
+                              iconText,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: color,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Text(
+                      iconText,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: color,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
             ),
             const SizedBox(width: 12),
             

@@ -27,3 +27,7 @@ flutter:
 
   assets:
     - assets/images/yoona.jpg 
+    - assets/images/ui.jpg 
+    - assets/images/pkn.jpg 
+    - assets/images/so.jpg 
+    - assets/images/mobile.jpg 

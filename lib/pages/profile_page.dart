@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 2),
                         image: const DecorationImage(
-                          image: AssetImage('assets/images/yoona.jpg'),
+                          image: AssetImage('images/yoona.jpg'),
                           fit: BoxFit.cover,
                         ),
                       ),

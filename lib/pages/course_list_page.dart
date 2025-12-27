@@ -15,6 +15,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.7,
         'color': Colors.orange,
         'icon': 'UI/UX',
+        'imageAsset': 'images/ui.jpg',
       },
       {
         'title': 'Pendidikan Kewarganegaraan',
@@ -22,6 +23,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.4,
         'color': Colors.red,
         'icon': 'PKN',
+        'imageAsset': 'images/pkn.jpg',
       },
       {
         'title': 'Sistem Operasi',
@@ -29,6 +31,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.85,
         'color': Colors.blueAccent,
         'icon': 'SO',
+        'imageAsset': 'images/so.jpg',
       },
       {
         'title': 'Pemrograman Perangkat Bergerak',
@@ -36,6 +39,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.2,
         'color': Colors.purple,
         'icon': 'MOB',
+        'imageAsset': 'images/mobile.jpg',
       },
       {
         'title': 'Basis Data Lanjut',
@@ -43,6 +47,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.5,
         'color': Colors.teal,
         'icon': 'DB',
+        'imageAsset': 'images/so.jpg',
       },
       {
         'title': 'Kecerdasan Buatan',
@@ -50,6 +55,7 @@ class CourseListPage extends StatelessWidget {
         'progress': 0.1,
         'color': Colors.indigo,
         'icon': 'AI',
+        'imageAsset': 'images/ui.jpg',
       },
     ];
 
